@@ -1,15 +1,11 @@
 import random
-import pygame
-from data.script.botao import Botoes
 
 class Dicas:
     def __init__(self, cf_game):
-        self.cf_game = cf_game
         self.janela = cf_game.janela
         self.config = cf_game.config
+        self.escrevendo = cf_game.escrevendo
         self.pais_nome = ""
-        self.y = 0
-        self.mostrar_pais = None
 
         self.imagens = [
             {
@@ -656,11 +652,9 @@ class Dicas:
 
     def _atualizar_pais(self, cols):
         self.cols = cols
-        self.y = 40
-        self.x = self.config.janela_largura // 2
         self.paises_aleatorios = random.sample(self.imagens, cols)
         pais = random.choice(self.paises_aleatorios)
         self.pais_nome = pais["nome"]
-        self.mostrar_pais = Botoes(self, self.pais_nome,self.x ,self.y)
-        self.mostrar_pais.draw_botao()
-
+    
+    def pais_draw(self):
+        self.escrevendo.escrever_centro_acima(self.pais_nome, 42)

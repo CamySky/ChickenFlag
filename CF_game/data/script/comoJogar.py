@@ -7,7 +7,7 @@ class Como_Jogar:
         self.janela = cf_game.janela
         self.estado_jogo = cf_game.estado_jogo
         self.config = self.cf_game.config
-        self.font = pygame.font.SysFont(None, 38)  # Reduzindo o tamanho da fonte
+        self.font = pygame.font.SysFont(None, 38) 
         self.msg = (
             "Bem-vindo ao Chicken Flag!\n"
             "O objetivo do jogo é ajudar uma galinha a chegar ao seu país de destino, "
@@ -38,7 +38,8 @@ class Como_Jogar:
             "- **Resultado**:\n"
             "  -Vitória: +200 pontos\n"
             "  -Derrota: -200 pontos\n"
-            "Divirta-se jogando Chicken Flag e aprenda sobre o mundo enquanto ajuda a galinha a chegar ao seu destino!"
+            "Divirta-se jogando Chicken Flag e aprenda sobre o mundo enquanto ajuda a galinha a chegar ao seu destino!\n"
+            "LEMBRE-SE: PARA SAIR CLIK Q."
         )
         self.cor_texto = (255, 255, 255)
         self.cor = self.config.bg_color

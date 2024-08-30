@@ -1,13 +1,11 @@
 import pygame
 
-from data.script.botao import Botoes
-
-
 class Cartas:
     def __init__(self, cf_game):
         self.cf_game = cf_game
         self.janela = cf_game.janela
         self.config = cf_game.config
+        self.botoes = cf_game.botoes
         self.chicken = cf_game.chicken
         self.dicas = cf_game.dicas
         self.grade = cf_game.grade
@@ -20,7 +18,10 @@ class Cartas:
         self.msg = None
         self.msg_imagem = None
         self.mostrando_carta = False
-        self.botoes = []
+        self.respostas = []
+        self.vdd = self.botoes.btn_vdd()
+        self.talvez = self.botoes.btn_talvez()
+        self.mentira = self.botoes.btn_mentira()
 
     def _draw_carta(self, col):
         if not self.mostrando_carta:
@@ -32,7 +33,7 @@ class Cartas:
         y = (self.janela_altura - altura_carta) // 2
         pygame.draw.rect(self.janela, self.cor, (x, y, largura_carta, altura_carta))
         self.mostrando_carta = True
-        self._info_carta(col, x, y, largura_carta, altura_carta)
+        self._info_carta(x, y, largura_carta)
 
     def _quebrar_texto(self, texto, largura_max):
         palavras = texto.split(' ')
@@ -54,39 +55,41 @@ class Cartas:
 
         return linhas
 
-    def _info_carta(self, col, x, y, largura_carta, altura_carta):
+    def _info_carta(self, x, y, largura_carta):
         if self.msg:
             linhas = self._quebrar_texto(self.msg, largura_carta - 20)
-            y_offset = y + 20  # Distância do topo da carta
+            y_offset = y + 20
 
             for linha in linhas:
                 linha_imagem = self.font.render(linha, True, self.cor_texto, self.cor)
                 linha_imagem_rect = linha_imagem.get_rect()
-                linha_imagem_rect.x = x + 10  # Distância das bordas laterais
+                linha_imagem_rect.x = x + 10 
                 linha_imagem_rect.y = y_offset
                 self.janela.blit(linha_imagem, linha_imagem_rect)
-                y_offset += linha_imagem_rect.height + 5  # Espaçamento entre linhas
+                y_offset += linha_imagem_rect.height + 5
 
-            for botao in self.config.botoes:
-                botao.draw_botao()
+            self.respostas = [
+                self.botoes.btn_vdd(),
+                self.botoes.btn_talvez(),
+                self.botoes.btn_mentira()
+            ]
 
     def draw(self):
         if self.mostrando_carta:
             self._draw_carta(self.chicken.cols)
 
     def check_click_botao(self, mouse_pos, rows):
-        for botao in self.config.botoes:
-            if botao.rect.collidepoint(mouse_pos):
+        for botao in self.respostas:
+            if botao.collidepoint(mouse_pos):
                 if self.dicas.pais_nome == self.dicas.paises_aleatorios[self.chicken.cols]["nome"]:
                     correta = True
                 else:
                     correta = False
-                self.finalizando.adicionar_pontos_resposta(correta, botao.msg)
-                if botao.msg == "Verdade":
+                if self.botoes.btn_vdd().collidepoint(mouse_pos):
                     self.grade.cores_quadrados[rows][self.coluna_atual] = (0, 209, 28)
-                elif botao.msg == "Não tenho certeza":
+                elif self.botoes.btn_talvez().collidepoint(mouse_pos):
                     self.grade.cores_quadrados[rows][self.coluna_atual] = (209, 174, 0)
-                elif botao.msg == "Mentira":
+                elif self.botoes.btn_mentira().collidepoint(mouse_pos):
                     self.grade.cores_quadrados[rows][self.coluna_atual] = (209, 0, 0)
                 self.mostrando_carta = False
                 self.msg_imagem = None

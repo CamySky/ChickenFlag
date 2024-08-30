@@ -1,14 +1,16 @@
 import pygame
 import time
+
 class Finalizando:
     def __init__(self, cf_game):
         self.cf_game = cf_game
         self.janela = cf_game.janela
-        self.pontos = 0
         self.dicas = cf_game.dicas
         self.chicken = cf_game.chicken
+        self.escrevendo = cf_game.escrevendo
         self.tempo_inicial = time.time()
         self.venceu = True
+        self.pontos = 0
 
     def pontos_finais(self):
         if self.dicas.paises_aleatorios[self.chicken.cols]["nome"] == self.dicas.pais_nome:
@@ -50,11 +52,6 @@ class Finalizando:
                 self.pontos += 50
                 print("Pontos para negar corretamente")
 
-    def draw_pontos(self, janela, font):
-        pontos_text = f"Pontos: {self.pontos}"
-        pontos_imagem = font.render(pontos_text, True, (255, 255, 255))
-        janela.blit(pontos_imagem, (10, 60))
-
     def resultado(self):
         arqImg = self.dicas.paises_aleatorios[self.chicken.cols]["bandeira"]
         bandeira = pygame.image.load(arqImg)
@@ -66,8 +63,4 @@ class Finalizando:
         y_pos = (altura_janela - altura_imagem) // 2
 
         self.janela.blit(bandeira, (x_pos, y_pos))
-
-        font =pygame.font.SysFont(None, 38)
-
-        resultado_imagem = font.render(self.text, True, (255, 255, 255))
-        self.janela.blit(resultado_imagem, (x_pos, y_pos - 50))
+        self.escrevendo.escrever_centro_acima(self.text, 42)

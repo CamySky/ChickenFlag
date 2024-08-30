@@ -25,7 +25,7 @@ class Chicken:
         self._nova_posicao()
 
     def _nova_posicao(self):
-        # Calcula a nova posição centralizada no quadrado atual
+        #Calcula a nova posição centralizada no quadrado atual
         x = self.config.margem + self.config.espacamento + self.cols * (self.config.quadrado_largura + self.config.espacamento) + self.config.quadrado_largura // 2
         y = self.config.margem + self.config.espacamento + self.rows * (self.config.quadrado_altura + self.config.espacamento) + self.config.quadrado_altura // 2
         self.rect.center = (x, y)
