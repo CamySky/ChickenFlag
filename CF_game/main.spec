@@ -5,7 +5,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[("data", "data")],
+    datas=[('data', 'data')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='Chicken_flag',
+    name='Chicken_Flag',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -36,3 +36,4 @@ exe = EXE(
     codesign_identity=None,
     entitlements_file=None,
 )
+
